@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  mc:
+    image: itzg/minecraft-server:multiarch
+    ports:
+      # expose the Minecraft server port outside of container
+      # host-port:container-port
+      - 25565:25565
+    container_name: mcserver
+    environment:
+      # REQUIRED for all types
+      EULA: "TRUE"
+      TZ: "Europe/Zurich"
+      # Set server type (vs the default of vanilla)
+      TYPE: CURSEFORGE
+      CF_SERVER_MOD: "/modpacks/FTBLite3-1.4.0-1.7.10Server.zip"
+      OVERRIDE_SERVER_PROPERTIES: "true"
+      MAX_MEMORY: 2G
+      MAX_PLAYERS: 5
+      # default view_distance is 10
+      VIEW_DISTANCE: 8
+      SERVER_NAME: 'dbsse_minerz'
+      WHITELIST: 'phanmir'
+      OPS: 'phanmir'
+      ALLOW_NETHER: 'true'
+      HARDCORE: 'false'
+      GENERATE_STRUCTURES: 'true'
+      SNOOPER_ENABLED: 'false'
+      SPAWN_PROTECTION: 8
+      MOTD: "D-BSSE MC Server powered by Miros raspberry-pi"
+      PLAYER_IDLE_TIMEOUT: 30
+      OP_PERMISSION_LEVEL: 4
+      
+    volumes:
+      # use a named, managed volume for data volume
+      - /mnt/ftblite:/data
+      - /mnt/modpacks:/modpacks
+      
+
+    tty: true
+    stdin_open: true
+    restart: always
